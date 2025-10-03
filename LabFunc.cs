@@ -54,7 +54,73 @@ namespace Labs
 
         public void Lab2()
         {
-            Console.WriteLine("Подождите. Скоро будет :D");
+            Console.WriteLine("Практическая работа №2");
+
+            // Задача 1: Сумма четной последовательности
+            Console.WriteLine("Задача 1:");
+            
+            int n = ReadInt("Введите количество чисел n: ");
+
+            long sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                int number = ReadInt($"Введите число №{i + 1}: ");
+
+                // Если номер четный (нумерация начинается с 1, значит четные номера - нечетные индексы)
+                if ((i + 1) % 2 == 0)
+                {
+                    sum += number;
+                }
+            }
+
+            Console.WriteLine($"Сумма элементов с четными номерами: {sum}");
+
+            // Задача 2: Количество элементов, кратных первому из последовательности
+            Console.WriteLine("\nЗадача 2:");
+
+            int first = ReadInt("Введите первый элемент последовательности: ");
+            int count = 0;
+
+            if(first == 0)
+            {
+                Console.WriteLine("Последовательность пуста.");
+            }
+            else
+            {
+                int current = first;
+                while (true)
+                {
+                    if (current % first == 0)
+                    {
+                        count++;
+                    }
+
+                    current = ReadInt("Введите число последовательности (введите 0 для завершения последовательности): ");
+                    if (current == 0)
+                    {
+                        break;
+                    }
+                }
+
+                Console.WriteLine($"Первый элемент последовательности: {first}");
+                Console.WriteLine($"Количество элементов, кратных {first}: {count}");
+            }
+
+            // задача 3: Сумма ряда n
+            Console.WriteLine("\nЗадача 3:");
+
+            n = ReadInt("Введите количество чисел n: ");
+
+            sum = 0;
+            for (int i = 1; i <= n; i++)
+            {
+                if (i % 3 == 0) // каждое третье число вычитаем
+                    sum -= i;
+                else
+                    sum += i;
+            }
+
+            Console.WriteLine($"Сумма ряда: {sum}");
         }
 
         public void Lab3()
