@@ -125,7 +125,22 @@ namespace Labs
 
         public void Lab3()
         {
-            Console.WriteLine("Подождите. Скоро будет :D");
+            double a = 0.1, b = 0.8;
+            int k = 10;
+            int n = 10;
+            double epsilon = 0.0001;
+            double step = (b - a) / k;
+
+            Console.WriteLine("Вычисление функции");
+            for (int i = 0; i <= k; i++)
+            {
+                double x = a + i * step;
+                double sn = CalculateSN(x, n);
+                double se = CalculateSE(x, epsilon);
+                double y = CalculateY(x);
+
+                Console.WriteLine($"X = {x:F4} SN = {sn:F6} SE = {se:F6} Y = {y:F6}");
+            }
         }
 
         public void Lab4()
@@ -229,6 +244,34 @@ namespace Labs
                     Console.WriteLine("Ошибка: нужно ввести число!");
                 }
             }
+        }
+        private double CalculateSN(double x, int n)
+        {
+            double sum = 0;
+            for (int i = 1; i <= n; i++)
+            {
+                double term = Math.Pow(-1, i + 1) * Math.Pow(x, 2 * i) / (2 * i * (2 * i - 1));
+                sum += term;
+            }
+            return sum;
+        }
+        private double CalculateSE(double x, double epsilon)
+        {
+            double sum = 0;
+            int i = 1;
+            while (true)
+            {
+                double term = Math.Pow(-1, i + 1) * Math.Pow(x, 2 * i) / (2 * i * (2 * i - 1));
+                if (Math.Abs(term) < epsilon)
+                    break;
+                sum += term;
+                i++;
+            }
+            return sum;
+        }
+        private double CalculateY(double x)
+        {
+            return x * Math.Atan(x) - 0.5 * Math.Log(1 + x * x);
         }
     }
 }
