@@ -1,15 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Labs
 {
+    /// <summary>
+    /// Основной класс программы для запуска лабораторных работ
+    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Точка входа в программу. Запускает интерактивное меню для выбора и выполнения лабораторных работ
+        /// </summary>
+        /// <param name="args">Аргументы командной строки (не используются)</param>
         static void Main(string[] args)
         {
+            /// <summary>
+            /// Экземпляр класса LabFunc для выполнения лабораторных работ
+            /// </summary>
             LabFunc labFunc = new LabFunc();
 
             while (true)
@@ -79,9 +85,15 @@ namespace Labs
                 Console.ReadKey();
                 Console.Clear();
             }
-
         }
 
+        /// <summary>
+        /// Отображает интерактивное меню выбора лабораторных работ
+        /// </summary>
+        /// <remarks>
+        /// Меню содержит пункты от 1 до 16 для выбора лабораторных работ и пункт 0 для выхода из программы.
+        /// После выбора работы выполняется соответствующая лабораторная работа из класса <see cref="LabFunc"/>.
+        /// </remarks>
         public static void DisplayMenu()
         {
             Console.WriteLine("===== МЕНЮ ПРОГРАММЫ =====");
@@ -106,5 +118,4 @@ namespace Labs
             Console.Write("Введите номер работы: ");
         }
     }
-    
 }
