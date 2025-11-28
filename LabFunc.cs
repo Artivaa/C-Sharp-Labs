@@ -27,27 +27,32 @@ namespace Labs
 
             // Выражение 1
             {
-                int m1 = m, n1 = n;
+                int m1 = m,
+                    n1 = n;
                 Console.WriteLine($"Выражение 1: m={m1}, n={n1} Значение m - --n = {m1 - --n1}");
                 Console.WriteLine($"После выражения 1: m={m1}, n={n1}\n");
             }
 
             // Выражение 2
             {
-                int m2 = m, n2 = n;
+                int m2 = m,
+                    n2 = n;
                 Console.WriteLine($"Выражение 2: m={m2}, n={n2} Значение m++ < n = {m2++ < n2}");
                 Console.WriteLine($"После выражения 2: m={m2}, n={n2}\n");
             }
 
             // Выражение 3
             {
-                int m3 = m, n3 = n;
+                int m3 = m,
+                    n3 = n;
                 Console.WriteLine($"Выражение 3: m={m3}, n={n3} Значение n++ > m = {n3++ > m3}");
                 Console.WriteLine($"После выражения 3: m={m3}, n={n3}\n");
             }
 
             // Выражение 4
-            Console.WriteLine($"Выражение 4: x={x}, Значение cos(arcsin(x)) = {Math.Cos(Math.Asin(x))}");
+            Console.WriteLine(
+                $"Выражение 4: x={x}, Значение cos(arcsin(x)) = {Math.Cos(Math.Asin(x))}"
+            );
 
             // Задача 2: Проверка принадлежности точки
             Console.WriteLine("\nЗадача 2:");
@@ -71,7 +76,8 @@ namespace Labs
             float bFloat = 0.0001f;
 
             float numeratorF = (float)Math.Pow(aFloat + bFloat, 3) - (float)Math.Pow(aFloat, 3);
-            float denominatorF = 3 * aFloat * (float)Math.Pow(bFloat, 2) + (float)Math.Pow(bFloat, 3);
+            float denominatorF =
+                3 * aFloat * (float)Math.Pow(bFloat, 2) + (float)Math.Pow(bFloat, 3);
             Console.WriteLine($"Float: {numeratorF / denominatorF}");
         }
 
@@ -105,7 +111,7 @@ namespace Labs
             Console.WriteLine("\nЗадача 2:");
 
             int first;
-            
+
             do
             {
                 first = ReadInt("Введите первый элемент последовательности (не может быть 0): ");
@@ -114,7 +120,7 @@ namespace Labs
                     Console.WriteLine("Деление на ноль невозможно. Введите ненулевое значение.");
                 }
             } while (first == 0);
-            
+
             int count = 0;
             int current;
 
@@ -152,7 +158,8 @@ namespace Labs
         /// </summary>
         public void Lab3()
         {
-            const double StartX = 0.1, EndX = 0.8;
+            const double StartX = 0.1,
+                EndX = 0.8;
             const int Steps = 10;
             const int NTermCount = 10;
             const double Epsilon = 0.0001;
@@ -221,16 +228,27 @@ namespace Labs
 
         // Заглушки для незавершенных лабораторных работ
         public void Lab5() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab6() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab7() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab8() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab9() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab10() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab11() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab12() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab13() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab14() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab15() => Console.WriteLine("Подождите. Скоро будет :D");
+
         public void Lab16() => Console.WriteLine("Подождите. Скоро будет :D");
 
         #region Вспомогательные методы ввода

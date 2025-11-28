@@ -77,7 +77,9 @@ namespace Labs
                         Console.WriteLine("Программа завершена.");
                         return;
                     default:
-                        Console.WriteLine("Ошибка: Неверный выбор. Пожалуйста, выберите 1–16 или 0.");
+                        Console.WriteLine(
+                            "Ошибка: Неверный выбор. Пожалуйста, выберите 1–16 или 0."
+                        );
                         break;
                 }
 
