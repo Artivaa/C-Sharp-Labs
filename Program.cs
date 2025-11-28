@@ -84,7 +84,7 @@ namespace Labs
                 }
 
                 Console.WriteLine("\nНажмите любую клавишу для продолжения...");
-                Console.ReadKey();
+                Console.ReadLine();
                 Console.Clear();
             }
         }
