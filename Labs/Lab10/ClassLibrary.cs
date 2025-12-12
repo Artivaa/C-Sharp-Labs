@@ -31,6 +31,7 @@ namespace Labs.Labs.Lab10
                 employeeCount = value;
             }
         }
+        public virtual string OrganizationType => "Организация";
 
         public Organization()
         {
@@ -92,6 +93,8 @@ namespace Labs.Labs.Lab10
             }
         }
 
+        public override string OrganizationType => "Страховая компания";
+
         public InsuranceCompany()
             : base()
         {
@@ -148,6 +151,7 @@ namespace Labs.Labs.Lab10
                 shipsBuilt = value;
             }
         }
+        public override string OrganizationType => "Судостроительная компания";
 
         public ShipbuildingCompany()
             : base()
@@ -203,6 +207,7 @@ namespace Labs.Labs.Lab10
                 productType = value;
             }
         }
+        public override string OrganizationType => "Завод";
 
         public Factory()
             : base()
@@ -266,6 +271,7 @@ namespace Labs.Labs.Lab10
                 booksCount = value;
             }
         }
+        public override string OrganizationType => "Библиотека";
 
         public Library()
             : base()

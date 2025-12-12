@@ -370,6 +370,106 @@ namespace Labs
 
         #region Методы для Lab10 для иерархии организаций
 
+        /// <summary>
+        /// Запрос 1: Вывод всех организаций заданного типа (например, все библиотеки или все заводы)
+        /// </summary>
+        public static void Query_ByType(Organization[] organizations)
+        {
+            Console.WriteLine("\n=== Запрос: Все организации заданного типа ===");
+            string[] types =
+            {
+                "Организация",
+                "Страховая компания",
+                "Судостроительная компания",
+                "Завод",
+                "Библиотека",
+            };
+
+            Console.WriteLine("Доступные типы:");
+            for (int i = 0; i < types.Length; i++)
+                Console.WriteLine($"  {i + 1}. {types[i]}");
+
+            int choice = ReadPositiveInt("Введите номер типа (1-5): ") - 1;
+            if (choice < 0 || choice >= types.Length)
+            {
+                Console.WriteLine("Неверный выбор.");
+                return;
+            }
+
+            string selectedType = types[choice];
+
+            var filtered = Array.FindAll(
+                organizations,
+                org => org.OrganizationType == selectedType
+            );
+
+            if (filtered.Length == 0)
+            {
+                Console.WriteLine($"Организаций типа \"{selectedType}\" не найдено.");
+                return;
+            }
+
+            Console.WriteLine($"\nНайдено организаций типа \"{selectedType}\": {filtered.Length}");
+            Console.WriteLine(new string('-', 50));
+            foreach (var org in filtered)
+            {
+                Console.Write("  ");
+                org.Show();
+            }
+        }
+
+        /// <summary>
+        /// Запрос 2: Количество организаций с числом сотрудников не менее заданного
+        /// </summary>
+        public static void Query_EmployeeCountMin(Organization[] organizations)
+        {
+            Console.WriteLine(
+                "\n=== Запрос: Количество организаций с числом сотрудников не менее заданного ==="
+            );
+            int minEmployees = ReadPositiveInt("Введите минимальное количество сотрудников: ");
+
+            int count = Array
+                .FindAll(organizations, org => org.EmployeeCount >= minEmployees)
+                .Length;
+
+            Console.WriteLine($"\nОрганизаций с количеством сотрудников ≥ {minEmployees}: {count}");
+        }
+
+        /// <summary>
+        /// Запрос 3: Организация с максимальным количеством книг (для библиотек) или клиентов (для страховых)
+        /// </summary>
+        public static void Query_MaxSpecificValue(Organization[] organizations)
+        {
+            Console.WriteLine("\n=== Запрос: Лидеры по специфическому показателю ===");
+
+            Library bestLibrary = organizations
+                .OfType<Library>()
+                .OrderByDescending(l => l.BooksCount)
+                .FirstOrDefault();
+
+            InsuranceCompany bestInsurance = organizations
+                .OfType<InsuranceCompany>()
+                .OrderByDescending(i => i.ClientCount)
+                .FirstOrDefault();
+
+            Console.WriteLine("Лидеры среди специализированных организаций:");
+            Console.WriteLine(new string('-', 60));
+
+            if (bestLibrary != null)
+                Console.WriteLine(
+                    $"Библиотека с наибольшим количеством книг ({bestLibrary.BooksCount}): {bestLibrary.Name}"
+                );
+            else
+                Console.WriteLine("Библиотек в массиве нет.");
+
+            if (bestInsurance != null)
+                Console.WriteLine(
+                    $"Страховая компания с наибольшим числом клиентов ({bestInsurance.ClientCount}): {bestInsurance.Name}"
+                );
+            else
+                Console.WriteLine("Страховых компаний в массиве нет.");
+        }
+
         public static string GenerateRandomString()
         {
             string[] names =

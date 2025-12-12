@@ -30,6 +30,12 @@ namespace Labs.Labs.Lab10
             Console.WriteLine(
                 "• Невиртуальный метод Display() всегда вызывает версию базового класса Organization, независимо от реального типа объекта."
             );
+
+            Query_ByType(organizations);
+
+            Query_EmployeeCountMin(organizations);
+
+            Query_MaxSpecificValue(organizations);
         }
     }
 }
