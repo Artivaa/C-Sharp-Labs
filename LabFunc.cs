@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Labs.Labs.Lab10;
 
 namespace Labs
 {
@@ -13,7 +14,7 @@ namespace Labs
         /// <summary>
         /// Генератор случайных чисел для использования в классе.
         /// </summary>
-        private static readonly Random rnd = new Random();
+        private static readonly Random rnd = new();
 
         #region Вспомогательные методы ввода
 
@@ -33,6 +34,32 @@ namespace Labs
                 }
 
                 Console.WriteLine("Ошибка: нужно ввести целое число!");
+            }
+        }
+
+        /// <summary>
+        /// Считывает положительное целое число (> 0)
+        /// </summary>
+        public static int ReadPositiveInt(string message)
+        {
+            while (true)
+            {
+                int value = ReadInt(message);
+                if (value > 0)
+                    return value;
+                Console.WriteLine("Ошибка: число должно быть положительным!");
+            }
+        }
+
+        public static string ReadString(string message)
+        {
+            while (true)
+            {
+                Console.Write(message);
+                string input = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(input))
+                    return input.Trim();
+                Console.WriteLine("Ошибка: строка не может быть пустой!");
             }
         }
 
@@ -145,6 +172,7 @@ namespace Labs
         #endregion
 
         #region Методы для Lab5 Многомерные и рваные массивы, строки
+
 
         /// <summary>
         /// Генерирует и заполняет случайными целыми числами от 1 до 99 двумерный массив.
@@ -336,6 +364,151 @@ namespace Labs
             (sentences[0], sentences[^1]) = (sentences[^1], sentences[0]);
 
             return string.Join(" ", sentences);
+        }
+
+        #endregion
+
+        #region Методы для Lab10 для иерархии организаций
+
+        public static string GenerateRandomString()
+        {
+            string[] names =
+            {
+                "РосАтом",
+                "Газпром",
+                "Сбербанк",
+                "РЖД",
+                "Лукойл",
+                "Морской флот",
+                "Верфь Звезда",
+                "Адмиралтейские верфи",
+                "Страховая защита",
+                "Росгосстрах",
+                "АльфаСтрахование",
+                "Центральная библиотека",
+                "Национальная библиотека",
+                "Городская читальня",
+                "АвтоЗавод",
+                "КамАЗ",
+                "ЭлектроСила",
+                "Металлургический комбинат",
+            };
+            return names[rnd.Next(names.Length)];
+        }
+
+        /// <summary>
+        /// Генерирует случайное название организации
+        /// </summary>
+        public static string GenerateRandomOrganizationName()
+        {
+            string[] bases =
+            {
+                "Рос",
+                "Газ",
+                "Сбер",
+                "РЖД",
+                "Лукойл",
+                "Морской",
+                "Верфь",
+                "Адмиралтейские",
+                "Страх",
+                "Росгос",
+                "Альфа",
+                "Центральная",
+                "Национальная",
+                "Городская",
+                "Авто",
+                "Кам",
+                "Электро",
+                "Металлург",
+            };
+            return bases[rnd.Next(bases.Length)]
+                + new[]
+                {
+                    "Атом",
+                    "пром",
+                    "банк",
+                    "",
+                    "флот",
+                    "Звезда",
+                    "",
+                    "защита",
+                    "страх",
+                    "",
+                    "библиотека",
+                    "читальня",
+                    "Завод",
+                    "АЗ",
+                    "Сила",
+                    "комбинат",
+                }[rnd.Next(16)];
+        }
+
+        /// <summary>
+        /// Создаёт случайный объект одного из типов иерархии
+        /// </summary>
+        public static Organization CreateRandomOrganization()
+        {
+            int type = rnd.Next(5);
+            return type switch
+            {
+                0 => new Organization().Also(o => o.RandomInit(rnd)),
+                1 => new InsuranceCompany().Also(o => o.RandomInit(rnd)),
+                2 => new ShipbuildingCompany().Also(o => o.RandomInit(rnd)),
+                3 => new Factory().Also(o => o.RandomInit(rnd)),
+                4 => new Library().Also(o => o.RandomInit(rnd)),
+                _ => throw new InvalidOperationException(),
+            };
+        }
+
+        /// <summary>
+        /// Вывод массива организаций через виртуальный метод Show()
+        /// </summary>
+        public static void PrintOrganizations(Organization[] organizations)
+        {
+            if (organizations == null || organizations.Length == 0)
+            {
+                Console.WriteLine("Массив организаций пуст.");
+                return;
+            }
+
+            Console.WriteLine("\n=== Вывод через виртуальный метод Show() (полиморфизм) ===");
+            for (int i = 0; i < organizations.Length; i++)
+            {
+                Console.Write($"{i + 1, 2}. ");
+                organizations[i].Show();
+            }
+            Console.WriteLine("========================================================\n");
+        }
+
+        /// <summary>
+        /// Вывод массива организаций через невиртуальный метод Display()
+        /// </summary>
+        public static void PrintOrganizationsNonVirtual(Organization[] organizations)
+        {
+            if (organizations == null || organizations.Length == 0)
+            {
+                Console.WriteLine("Массив организаций пуст.");
+                return;
+            }
+
+            Console.WriteLine(
+                "\n=== Вывод через НЕвиртуальный метод Display() (без полиморфизма) ==="
+            );
+            for (int i = 0; i < organizations.Length; i++)
+            {
+                Console.Write($"{i + 1, 2}. ");
+                organizations[i].Display(); // Всегда базовая версия
+            }
+            Console.WriteLine(
+                "====================================================================\n"
+            );
+        }
+
+        private static T Also<T>(this T obj, Action<T> action)
+        {
+            action(obj);
+            return obj;
         }
 
         #endregion
