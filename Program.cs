@@ -26,14 +26,13 @@ namespace Labs
 
                 switch (choice)
                 {
-                    case "0":
-                        Console.WriteLine("Программа завершена.");
-                        return;
-
                     // Проверяем, есть ли выбранный ключ в словаре
                     case var key when labActions.ContainsKey(key):
                         labActions[key].Invoke(); // Запускаем соответствующую работу
                         break;
+                    case "0":
+                        Console.WriteLine("Программа завершена.");
+                        return;
 
                     default:
                         Console.WriteLine(
