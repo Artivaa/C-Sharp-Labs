@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Labs.Labs;
 
 namespace Labs
@@ -10,34 +11,33 @@ namespace Labs
     {
         public static void Main(string[] args)
         {
+            // Используем Dictionary для маппинга выбора пользователя на действие
+            var labActions = new Dictionary<string, Action>
+            {
+                ["1"] = () => new Lab1().Run(),
+                ["3"] = () => new Lab3().Run(),
+                ["5"] = () => new Lab5().Run(),
+            };
+
             while (true)
             {
                 DisplayMenu();
-                string choice = Console.ReadLine();
+                string choice = Console.ReadLine()?.Trim();
 
                 switch (choice)
                 {
-                    case "1":
-                        Lab1 lab1 = new();
-                        lab1.Run();
-                        break;
-
-                    case "3":
-                        Lab3 lab3 = new();
-                        lab3.Run();
-                        break;
-
-                    case "5":
-                        Lab5 lab5 = new();
-                        lab5.Run();
-                        break;
-
                     case "0":
                         Console.WriteLine("Программа завершена.");
                         return;
+
+                    // Проверяем, есть ли выбранный ключ в словаре
+                    case var key when labActions.ContainsKey(key):
+                        labActions[key].Invoke(); // Запускаем соответствующую работу
+                        break;
+
                     default:
                         Console.WriteLine(
-                            "Ошибка: Неверный выбор. Пожалуйста, выберите 1, 3 или 0."
+                            "Ошибка: Неверный выбор. Пожалуйста, выберите 1, 3, 5 или 0."
                         );
                         break;
                 }
