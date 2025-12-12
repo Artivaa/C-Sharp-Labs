@@ -27,6 +27,11 @@ namespace Labs
                         lab3.Run();
                         break;
 
+                    case "5":
+                        Lab5 lab5 = new();
+                        lab5.Run();
+                        break;
+
                     case "0":
                         Console.WriteLine("Программа завершена.");
                         return;
@@ -51,6 +56,7 @@ namespace Labs
             Console.WriteLine("===== МЕНЮ ПРОГРАММЫ =====");
             Console.WriteLine("1.  Работа 1");
             Console.WriteLine("3.  Работа 3");
+            Console.WriteLine("5.  Работа 5");
             Console.WriteLine("0.  Выход");
             Console.WriteLine("==========================");
             Console.Write("Введите номер работы: ");
