@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Labs.Labs;
+using Labs.Labs.Lab9;
 
 namespace Labs
 {
@@ -17,6 +18,7 @@ namespace Labs
                 ["1"] = () => new Lab1().Run(),
                 ["3"] = () => new Lab3().Run(),
                 ["5"] = () => new Lab5().Run(),
+                ["9"] = () => new Lab9().Run(),
             };
 
             while (true)
@@ -36,7 +38,7 @@ namespace Labs
 
                     default:
                         Console.WriteLine(
-                            "Ошибка: Неверный выбор. Пожалуйста, выберите 1, 3, 5 или 0."
+                            "Ошибка: Неверный выбор. Пожалуйста, выберите 1, 3, 5, 9 или 0."
                         );
                         break;
                 }
@@ -56,6 +58,7 @@ namespace Labs
             Console.WriteLine("1.  Работа 1");
             Console.WriteLine("3.  Работа 3");
             Console.WriteLine("5.  Работа 5");
+            Console.WriteLine("9.  Работа 9");
             Console.WriteLine("0.  Выход");
             Console.WriteLine("==========================");
             Console.Write("Введите номер работы: ");
