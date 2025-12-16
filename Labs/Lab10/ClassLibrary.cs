@@ -179,6 +179,14 @@ namespace Labs.Labs.Lab10
         }
 
         /// <summary>
+        /// Переопределение ToString для использования имени в качестве ключа коллекций.
+        /// </summary>
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        /// <summary>
         /// Вычисляет хэш-код для текущего экземпляра.
         /// </summary>
         /// <returns>Хэш-код для текущего объекта.</returns>

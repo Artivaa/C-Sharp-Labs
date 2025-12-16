@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Labs.Labs.Lab10;
 using static Labs.LabFunc;
 
-namespace Labs.Labs
+namespace Labs.Labs.Lab11
 {
     public class Lab11 : ILab
     {
@@ -24,6 +24,7 @@ namespace Labs.Labs
                 Console.WriteLine("4. Выполнить запросы");
                 Console.WriteLine("5. Клонирование коллекции");
                 Console.WriteLine("6. Сортировка и бинарный поиск");
+                Console.WriteLine("7. Тестирование коллекций");
                 Console.WriteLine("0. Выход");
 
                 int choice = ReadInt("Выберите пункт: ");
@@ -47,6 +48,9 @@ namespace Labs.Labs
                         break;
                     case 6:
                         TestSortAndSearch();
+                        break;
+                    case 7:
+                        RunPerformanceTest();
                         break;
                     case 0:
                         running = false;
@@ -261,6 +265,27 @@ namespace Labs.Labs
             {
                 Console.WriteLine("Элемент не найден.");
             }
+        }
+
+        private static void RunPerformanceTest()
+        {
+            Console.WriteLine("\n--- Тестирование производительности коллекций ---");
+            // Создаем коллекции с 1000 элементов (как в задании)
+            TestCollections tester = new(1000);
+
+            // Запускаем измерения
+            tester.MeasureTime();
+
+            Console.WriteLine("\nПояснение:");
+            Console.WriteLine(
+                "1. Queue.Contains: Линейный поиск O(N). Время зависит от позиции элемента."
+            );
+            Console.WriteLine(
+                "2. SortedDictionary.ContainsKey: Бинарное дерево поиска O(log N). Время почти одинаковое (быстрое)."
+            );
+            Console.WriteLine(
+                "3. SortedDictionary.ContainsValue: Линейный перебор значений O(N). Аналогично Queue."
+            );
         }
     }
 }
