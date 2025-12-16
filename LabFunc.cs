@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Labs.Labs.Lab10;
 
 namespace Labs
@@ -14,7 +15,10 @@ namespace Labs
         /// <summary>
         /// Генератор случайных чисел для использования в классе.
         /// </summary>
-        private static readonly Random rnd = new();
+        private static readonly ThreadLocal<Random> _rnd = new(() => new Random());
+
+        // Вспомогательное свойство для удобства
+        private static Random Rnd => _rnd.Value;
 
         #region Вспомогательные методы ввода
 
@@ -185,7 +189,7 @@ namespace Labs
             int[,] newArray = new int[rows, cols];
             for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++)
-                newArray[i, j] = rnd.Next(1, 100);
+                newArray[i, j] = Rnd.Next(1, 100);
             return newArray;
         }
 
@@ -213,7 +217,7 @@ namespace Labs
                     newArray[i, j] = original[i, j];
                 }
                 // Заполняем новый столбец
-                newArray[i, cols] = rnd.Next(100, 200);
+                newArray[i, cols] = Rnd.Next(100, 200);
             }
 
             return newArray;
@@ -256,11 +260,11 @@ namespace Labs
 
             for (int i = 0; i < rows; i++)
             {
-                int length = rnd.Next(minLen, maxLen + 1);
+                int length = Rnd.Next(minLen, maxLen + 1);
                 jagged[i] = new int[length];
                 for (int j = 0; j < length; j++)
                 {
-                    jagged[i][j] = rnd.Next(1, 20); // Числа поменьше, чтобы легче было попасть в K
+                    jagged[i][j] = Rnd.Next(1, 20); // Числа поменьше, чтобы легче было попасть в K
                 }
             }
             return jagged;
@@ -493,7 +497,7 @@ namespace Labs
                 "ЭлектроСила",
                 "Металлургический комбинат",
             };
-            return names[rnd.Next(names.Length)];
+            return names[Rnd.Next(names.Length)];
         }
 
         /// <summary>
@@ -522,7 +526,7 @@ namespace Labs
                 "Электро",
                 "Металлург",
             };
-            return bases[rnd.Next(bases.Length)]
+            return bases[Rnd.Next(bases.Length)]
                 + new[]
                 {
                     "Атом",
@@ -541,7 +545,7 @@ namespace Labs
                     "АЗ",
                     "Сила",
                     "комбинат",
-                }[rnd.Next(16)];
+                }[Rnd.Next(16)];
         }
 
         /// <summary>
@@ -549,16 +553,20 @@ namespace Labs
         /// </summary>
         public static Organization CreateRandomOrganization()
         {
-            int type = rnd.Next(5);
-            return type switch
+            int type = Rnd.Next(5);
+            Organization org = type switch
             {
-                0 => new Organization().Also(o => o.RandomInit(rnd)),
-                1 => new InsuranceCompany().Also(o => o.RandomInit(rnd)),
-                2 => new ShipbuildingCompany().Also(o => o.RandomInit(rnd)),
-                3 => new Factory().Also(o => o.RandomInit(rnd)),
-                4 => new Library().Also(o => o.RandomInit(rnd)),
+                0 => new Organization(),
+                1 => new InsuranceCompany(),
+                2 => new ShipbuildingCompany(),
+                3 => new Factory(),
+                4 => new Library(),
                 _ => throw new InvalidOperationException(),
             };
+
+            // Инициализация вынесена явно
+            org.RandomInit(Rnd);
+            return org;
         }
 
         /// <summary>
@@ -603,12 +611,6 @@ namespace Labs
             Console.WriteLine(
                 "====================================================================\n"
             );
-        }
-
-        private static T Also<T>(this T obj, Action<T> action)
-        {
-            action(obj);
-            return obj;
         }
 
         #endregion

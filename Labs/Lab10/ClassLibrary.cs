@@ -123,7 +123,7 @@ namespace Labs.Labs.Lab10
         public override void RandomInit(Random rnd)
         {
             base.RandomInit(rnd);
-            Name += " Страхование";
+            Name = $"{GenerateRandomString()} Страхование";
             ClientCount = rnd.Next(1000, 10000);
         }
 
@@ -181,7 +181,7 @@ namespace Labs.Labs.Lab10
         public override void RandomInit(Random rnd)
         {
             base.RandomInit(rnd);
-            Name += " Верфь";
+            Name = $"{GenerateRandomString()} Верфь";
             ShipsBuilt = rnd.Next(5, 150);
         }
 
@@ -237,7 +237,7 @@ namespace Labs.Labs.Lab10
         public override void RandomInit(Random rnd)
         {
             base.RandomInit(rnd);
-            Name += " Завод";
+            Name = $"{GenerateRandomString()} Завод";
             string[] types =
             {
                 "Автомобили",
@@ -301,7 +301,7 @@ namespace Labs.Labs.Lab10
         public override void RandomInit(Random rnd)
         {
             base.RandomInit(rnd);
-            Name += " Библиотека";
+            Name = $"{GenerateRandomString()} Библиотека";
             BooksCount = rnd.Next(5000, 200000);
         }
 
