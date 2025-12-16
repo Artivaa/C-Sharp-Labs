@@ -21,6 +21,7 @@ namespace Labs
                 ["5"] = () => new Lab5().Run(),
                 ["9"] = () => new Lab9().Run(),
                 ["10"] = () => new Lab10().Run(),
+                ["11"] = () => new Lab11().Run(),
             };
 
             while (true)
@@ -40,7 +41,7 @@ namespace Labs
 
                     default:
                         Console.WriteLine(
-                            "Ошибка: Неверный выбор. Пожалуйста, выберите 1, 3, 5, 9, 10 или 0."
+                            "Ошибка: Неверный выбор. Пожалуйста, выберите 1, 3, 5, 9, 10, 11 или 0."
                         );
                         break;
                 }
@@ -62,6 +63,7 @@ namespace Labs
             Console.WriteLine("5.  Работа 5");
             Console.WriteLine("9.  Работа 9");
             Console.WriteLine("10.  Работа 10");
+            Console.WriteLine("11.  Работа 11");
             Console.WriteLine("0.  Выход");
             Console.WriteLine("==========================");
             Console.Write("Введите номер работы: ");
