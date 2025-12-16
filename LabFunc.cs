@@ -8,25 +8,29 @@ using Labs.Labs.Lab10;
 namespace Labs
 {
     /// <summary>
-    /// Вспомогательный класс для выполнения лабораторных работ по программированию
+    /// Вспомогательный статический класс, содержащий общие функции, используемые в различных лабораторных работах:
+    /// считывание ввода, математические вычисления, работа с массивами и запросы к иерархии классов.
     /// </summary>
     public static class LabFunc
     {
         /// <summary>
-        /// Генератор случайных чисел для использования в классе.
+        /// Генератор случайных чисел, обернутый в <see cref="ThreadLocal{T}"/> для потокобезопасного использования.
         /// </summary>
         private static readonly ThreadLocal<Random> _rnd = new(() => new Random());
 
-        // Вспомогательное свойство для удобства
+        /// <summary>
+        /// Вспомогательное свойство для получения экземпляра <see cref="Random"/>.
+        /// </summary>
         public static Random Rnd => _rnd.Value;
 
         #region Вспомогательные методы ввода
 
         /// <summary>
-        /// Считывает целое число из консоли с обработкой ошибок ввода
+        /// Считывает целое число из консоли с обработкой ошибок ввода.
+        /// Цикл повторяется, пока не будет введено корректное целое число.
         /// </summary>
-        /// <param name="message">Сообщение для пользователя</param>
-        /// <returns>Введенное целое число</returns>
+        /// <param name="message">Сообщение для пользователя, запрашивающее ввод.</param>
+        /// <returns>Введенное целое число.</returns>
         public static int ReadInt(string message)
         {
             while (true)
@@ -42,8 +46,10 @@ namespace Labs
         }
 
         /// <summary>
-        /// Считывает положительное целое число (> 0)
+        /// Считывает положительное целое число (> 0) из консоли с обработкой ошибок ввода и диапазона.
         /// </summary>
+        /// <param name="message">Сообщение для пользователя, запрашивающее ввод.</param>
+        /// <returns>Введенное положительное целое число.</returns>
         public static int ReadPositiveInt(string message)
         {
             while (true)
@@ -55,6 +61,11 @@ namespace Labs
             }
         }
 
+        /// <summary>
+        /// Считывает непустую строку из консоли.
+        /// </summary>
+        /// <param name="message">Сообщение для пользователя, запрашивающее ввод.</param>
+        /// <returns>Введенная, обрезанная (Trim) строка.</returns>
         public static string ReadString(string message)
         {
             while (true)
@@ -68,10 +79,10 @@ namespace Labs
         }
 
         /// <summary>
-        /// Считывает число с плавающей точкой из консоли с обработкой ошибок ввода
+        /// Считывает число с плавающей точкой (<see cref="double"/>) из консоли с обработкой ошибок ввода.
         /// </summary>
-        /// <param name="message">Сообщение для пользователя</param>
-        /// <returns>Введенное число с плавающей точкой</returns>
+        /// <param name="message">Сообщение для пользователя, запрашивающее ввод.</param>
+        /// <returns>Введенное число с плавающей точкой.</returns>
         public static double ReadDouble(string message)
         {
             while (true)
@@ -87,12 +98,13 @@ namespace Labs
         }
 
         /// <summary>
-        /// Считывает число с плавающей точкой в заданном диапазоне с обработкой ошибок
+        /// Считывает число с плавающей точкой в заданном диапазоне (<paramref name="min"/> и <paramref name="max"/>)
+        /// с обработкой ошибок.
         /// </summary>
-        /// <param name="message">Сообщение для пользователя</param>
-        /// <param name="min">Минимальное значение диапазона</param>
-        /// <param name="max">Максимальное значение диапазона</param>
-        /// <returns>Введенное число в заданном диапазоне</returns>
+        /// <param name="message">Сообщение для пользователя, запрашивающее ввод.</param>
+        /// <param name="min">Минимальное допустимое значение (включительно).</param>
+        /// <param name="max">Максимальное допустимое значение (включительно).</param>
+        /// <returns>Введенное число в заданном диапазоне.</returns>
         public static double ReadDoubleInRange(string message, double min, double max)
         {
             while (true)
@@ -119,11 +131,11 @@ namespace Labs
         #region Методы для Lab3 - численное интегрирование
 
         /// <summary>
-        /// Вычисляет сумму ряда с заданным количеством членов
+        /// Вычисляет сумму ряда $\sum_{i=1}^{n} \frac{(-1)^{i+1} \cdot x^{2i}}{2i \cdot (2i - 1)}$ с заданным количеством членов.
         /// </summary>
-        /// <param name="x">Аргумент функции</param>
-        /// <param name="n">Количество членов ряда</param>
-        /// <returns>Значение суммы ряда</returns>
+        /// <param name="x">Аргумент функции.</param>
+        /// <param name="n">Количество членов ряда, которое необходимо просуммировать.</param>
+        /// <returns>Значение суммы ряда.</returns>
         public static double CalculateSN(double x, int n)
         {
             double sum = 0;
@@ -137,11 +149,12 @@ namespace Labs
         }
 
         /// <summary>
-        /// Вычисляет сумму ряда с заданной точностью (Epsilon)
+        /// Вычисляет сумму ряда $\sum_{i=1}^{\infty} \frac{(-1)^{i+1} \cdot x^{2i}}{2i \cdot (2i - 1)}$ с заданной точностью $\epsilon$.
+        /// Суммирование прекращается, когда модуль очередного члена ряда становится меньше <paramref name="epsilon"/>.
         /// </summary>
-        /// <param name="x">Аргумент функции</param>
-        /// <param name="epsilon">Требуемая точность вычислений (максимальный модуль последнего члена)</param>
-        /// <returns>Значение суммы ряда с заданной точностью</returns>
+        /// <param name="x">Аргумент функции.</param>
+        /// <param name="epsilon">Требуемая точность вычислений (максимальный модуль последнего члена).</param>
+        /// <returns>Значение суммы ряда с заданной точностью.</returns>
         public static double CalculateSE(double x, double epsilon)
         {
             double sum = 0;
@@ -164,10 +177,10 @@ namespace Labs
         }
 
         /// <summary>
-        /// Вычисляет аналитическое значение функции: f(x) = x * arctg(x) - 0.5 * ln(1 + x^2)
+        /// Вычисляет аналитическое значение функции: $f(x) = x \cdot \arctan(x) - 0.5 \cdot \ln(1 + x^2)$.
         /// </summary>
-        /// <param name="x">Аргумент функции</param>
-        /// <returns>Аналитическое значение функции</returns>
+        /// <param name="x">Аргумент функции.</param>
+        /// <returns>Аналитическое значение функции.</returns>
         public static double CalculateY(double x)
         {
             return x * Math.Atan(x) - 0.5 * Math.Log(1 + x * x);
@@ -176,7 +189,6 @@ namespace Labs
         #endregion
 
         #region Методы для Lab5 Многомерные и рваные массивы, строки
-
 
         /// <summary>
         /// Генерирует и заполняет случайными целыми числами от 1 до 99 двумерный массив.
@@ -279,7 +291,6 @@ namespace Labs
         public static int[][] RemoveRowsContainingK(int[][] jagged, int k)
         {
             // Создаем список для хранения строк, которые НЕ содержат k.
-            // Используем List, так как мы заранее не знаем, сколько строк останется.
             List<int[]> tempResult = new List<int[]>();
 
             // Проходим по каждой строке зубчатого массива
@@ -305,7 +316,7 @@ namespace Labs
                 }
             }
 
-            // Вывод информации (логика остается прежней)
+            // Вывод информации
             int removedCount = jagged.Length - tempResult.Count;
 
             if (removedCount > 0)
@@ -375,8 +386,9 @@ namespace Labs
         #region Методы для Lab10 для иерархии организаций
 
         /// <summary>
-        /// Запрос 1: Вывод всех организаций заданного типа (например, все библиотеки или все заводы)
+        /// Запрос 1: Вывод всех организаций заданного типа (например, все библиотеки или все заводы).
         /// </summary>
+        /// <param name="organizations">Массив объектов <see cref="Organization"/>.</param>
         public static void Query_ByType(Organization[] organizations)
         {
             Console.WriteLine("\n=== Запрос: Все организации заданного типа ===");
@@ -402,6 +414,7 @@ namespace Labs
 
             string selectedType = types[choice];
 
+            // Фильтрация с использованием свойства OrganizationType (полиморфизм)
             var filtered = Array.FindAll(
                 organizations,
                 org => org.OrganizationType == selectedType
@@ -423,8 +436,9 @@ namespace Labs
         }
 
         /// <summary>
-        /// Запрос 2: Количество организаций с числом сотрудников не менее заданного
+        /// Запрос 2: Количество организаций с числом сотрудников не менее заданного.
         /// </summary>
+        /// <param name="organizations">Массив объектов <see cref="Organization"/>.</param>
         public static void Query_EmployeeCountMin(Organization[] organizations)
         {
             Console.WriteLine(
@@ -440,12 +454,15 @@ namespace Labs
         }
 
         /// <summary>
-        /// Запрос 3: Организация с максимальным количеством книг (для библиотек) или клиентов (для страховых)
+        /// Запрос 3: Поиск организации с максимальным количеством книг (среди библиотек) или клиентов (среди страховых компаний).
+        /// Использует LINQ (OfType, OrderByDescending).
         /// </summary>
+        /// <param name="organizations">Массив объектов <see cref="Organization"/>.</param>
         public static void Query_MaxSpecificValue(Organization[] organizations)
         {
             Console.WriteLine("\n=== Запрос: Лидеры по специфическому показателю ===");
 
+            // Использование OfType<T>() для извлечения только объектов нужного производного типа
             Library bestLibrary = organizations
                 .OfType<Library>()
                 .OrderByDescending(l => l.BooksCount)
@@ -474,6 +491,10 @@ namespace Labs
                 Console.WriteLine("Страховых компаний в массиве нет.");
         }
 
+        /// <summary>
+        /// Генерирует случайное название организации из предопределенного списка.
+        /// </summary>
+        /// <returns>Случайное название организации.</returns>
         public static string GenerateRandomString()
         {
             string[] names =
@@ -501,8 +522,9 @@ namespace Labs
         }
 
         /// <summary>
-        /// Генерирует случайное название организации
+        /// Генерирует случайное название организации путем конкатенации случайных частей.
         /// </summary>
+        /// <returns>Случайное название организации.</returns>
         public static string GenerateRandomOrganizationName()
         {
             string[] bases =
@@ -549,8 +571,10 @@ namespace Labs
         }
 
         /// <summary>
-        /// Создаёт случайный объект одного из типов иерархии
+        /// Создаёт и инициализирует случайным образом объект одного из типов иерархии <see cref="Organization"/> (Organization, InsuranceCompany, ShipbuildingCompany, Factory, Library).
         /// </summary>
+        /// <returns>Случайно созданный и инициализированный объект, наследующий от <see cref="Organization"/>.</returns>
+        /// <exception cref="InvalidOperationException">Внутренняя ошибка, если случайное число вышло за допустимый диапазон.</exception>
         public static Organization CreateRandomOrganization()
         {
             int type = Rnd.Next(5);
@@ -564,14 +588,16 @@ namespace Labs
                 _ => throw new InvalidOperationException(),
             };
 
-            // Инициализация вынесена явно
+            // Явная инициализация через метод RandomInit, реализующий IInit
             org.RandomInit(Rnd);
             return org;
         }
 
         /// <summary>
-        /// Вывод массива организаций через виртуальный метод Show()
+        /// Выводит содержимое массива организаций, используя виртуальный метод <see cref="Organization.Show"/>.
+        /// Демонстрирует полиморфизм, где вызывается реализация метода в соответствии с фактическим типом объекта.
         /// </summary>
+        /// <param name="organizations">Массив объектов <see cref="Organization"/>.</param>
         public static void PrintOrganizations(Organization[] organizations)
         {
             if (organizations == null || organizations.Length == 0)
@@ -590,8 +616,10 @@ namespace Labs
         }
 
         /// <summary>
-        /// Вывод массива организаций через невиртуальный метод Display()
+        /// Выводит содержимое массива организаций, используя НЕвиртуальный метод <see cref="Organization.Display"/>.
+        /// Демонстрирует отсутствие полиморфизма, так как всегда вызывается версия из базового класса <see cref="Organization"/>.
         /// </summary>
+        /// <param name="organizations">Массив объектов <see cref="Organization"/>.</param>
         public static void PrintOrganizationsNonVirtual(Organization[] organizations)
         {
             if (organizations == null || organizations.Length == 0)
