@@ -18,7 +18,7 @@ namespace Labs
         private static readonly ThreadLocal<Random> _rnd = new(() => new Random());
 
         // Вспомогательное свойство для удобства
-        private static Random Rnd => _rnd.Value;
+        public static Random Rnd => _rnd.Value;
 
         #region Вспомогательные методы ввода
 

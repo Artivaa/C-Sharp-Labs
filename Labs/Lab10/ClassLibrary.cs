@@ -3,7 +3,7 @@ using static Labs.LabFunc;
 
 namespace Labs.Labs.Lab10
 {
-    public class Organization
+    public class Organization : IInit, IComparable<Organization>, ICloneable
     {
         protected string name;
         protected int employeeCount;
@@ -75,6 +75,35 @@ namespace Labs.Labs.Lab10
             return Name == other.Name && EmployeeCount == other.EmployeeCount;
         }
 
+        public virtual void Init()
+        {
+            Console.WriteLine("\nВвод данных организации:");
+            Name = ReadString("Введите название: ");
+            EmployeeCount = ReadPositiveInt("Введите количество сотрудников: ");
+        }
+
+        public void RandomInit()
+        {
+            RandomInit(Rnd);
+        }
+
+        public int CompareTo(Organization other)
+        {
+            if (other == null)
+                return 1;
+            return string.Compare(this.Name, other.Name, StringComparison.Ordinal);
+        }
+
+        public virtual object Clone()
+        {
+            return new Organization(this);
+        }
+
+        public Organization ShallowCopy()
+        {
+            return (Organization)this.MemberwiseClone();
+        }
+
         public override int GetHashCode() => HashCode.Combine(Name, EmployeeCount);
     }
 
@@ -118,6 +147,17 @@ namespace Labs.Labs.Lab10
             Console.WriteLine(
                 $"Страховая компания: {Name}, Сотрудников: {EmployeeCount}, Клиентов: {ClientCount}"
             );
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            ClientCount = ReadPositiveInt("Введите количество клиентов: ");
+        }
+
+        public override object Clone()
+        {
+            return new InsuranceCompany(this);
         }
 
         public override void RandomInit(Random rnd)
@@ -178,6 +218,17 @@ namespace Labs.Labs.Lab10
             );
         }
 
+        public override void Init()
+        {
+            base.Init();
+            ShipsBuilt = LabFunc.ReadPositiveInt("Введите количество построенных кораблей: ");
+        }
+
+        public override object Clone()
+        {
+            return new ShipbuildingCompany(this);
+        }
+
         public override void RandomInit(Random rnd)
         {
             base.RandomInit(rnd);
@@ -232,6 +283,17 @@ namespace Labs.Labs.Lab10
             Console.WriteLine(
                 $"Завод: {Name}, Сотрудников: {EmployeeCount}, Тип продукции: {ProductType}"
             );
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            ProductType = LabFunc.ReadString("Введите тип продукции: ");
+        }
+
+        public override object Clone()
+        {
+            return new Factory(this);
         }
 
         public override void RandomInit(Random rnd)
@@ -296,6 +358,17 @@ namespace Labs.Labs.Lab10
             Console.WriteLine(
                 $"Библиотека: {Name}, Сотрудников: {EmployeeCount}, Книг: {BooksCount}"
             );
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            BooksCount = LabFunc.ReadPositiveInt("Введите количество книг: ");
+        }
+
+        public override object Clone()
+        {
+            return new Library(this);
         }
 
         public override void RandomInit(Random rnd)
