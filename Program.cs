@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Labs.Labs;
 using Labs.Labs.Lab10;
-using Labs.Labs.Lab9;
 using Labs.Labs.Lab11;
+using Labs.Labs.Lab9;
 
 namespace Labs
 {

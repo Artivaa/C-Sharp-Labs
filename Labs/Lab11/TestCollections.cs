@@ -3,18 +3,37 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Labs.Labs.Lab10;
 
-namespace Labs.Labs
+namespace Labs.Labs.Lab11
 {
+    /// <summary>
+    /// Класс для тестирования производительности операций поиска
+    /// (<c>Contains</c>, <c>ContainsKey</c>, <c>ContainsValue</c>)
+    /// в различных коллекциях (<see cref="Queue{T}"/> и <see cref="SortedDictionary{TKey, TValue}"/>).
+    /// </summary>
     public class TestCollections
     {
         // Поля коллекций согласно заданию
-        // Коллекция_1 - Queue
+
+        /// <summary>
+        /// Коллекция 1: Очередь (<see cref="Queue{T}"/>) с элементами производного класса <see cref="Factory"/>.
+        /// </summary>
         public Queue<Factory> Col1_Value = new();
+
+        /// <summary>
+        /// Коллекция 1: Очередь (<see cref="Queue{T}"/>) со строковыми представлениями элементов.
+        /// </summary>
         public Queue<string> Col1_String = new();
 
-        // Коллекция_2 - SortedDictionary
-        // TKey (Organization) - базовый, TValue (Factory) - производный
+        /// <summary>
+        /// Коллекция 2: Сортированный словарь (<see cref="SortedDictionary{TKey, TValue}"/>),
+        /// где ключ - базовый класс <see cref="Organization"/>, а значение - производный <see cref="Factory"/>.
+        /// </summary>
         public SortedDictionary<Organization, Factory> Col2_KeyVal = new();
+
+        /// <summary>
+        /// Коллекция 2: Сортированный словарь (<see cref="SortedDictionary{TKey, TValue}"/>),
+        /// где ключ - строка, а значение - <see cref="Factory"/>.
+        /// </summary>
         public SortedDictionary<string, Factory> Col2_StringVal = new();
 
         // Объекты для поиска (первый, центральный, последний, отсутствующий)
@@ -23,6 +42,11 @@ namespace Labs.Labs
         private Factory _lastElement;
         private Factory _noneElement;
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="TestCollections"/> и заполняет все коллекции
+        /// указанным количеством элементов <see cref="Factory"/>.
+        /// </summary>
+        /// <param name="count">Количество элементов для генерации и добавления в коллекции.</param>
         public TestCollections(int count)
         {
             if (count <= 0)
@@ -64,6 +88,11 @@ namespace Labs.Labs
             _noneElement = new Factory("Factory_MISSING", 999, "None");
         }
 
+        /// <summary>
+        /// Выполняет замер времени выполнения операций поиска
+        /// (<c>Contains</c>, <c>ContainsKey</c>, <c>ContainsValue</c>)
+        /// для первого, центрального, последнего и отсутствующего элементов в каждой коллекции.
+        /// </summary>
         public void MeasureTime()
         {
             Console.WriteLine("\n=== Результаты измерения времени поиска (в тиках) ===");
@@ -78,7 +107,7 @@ namespace Labs.Labs
             );
             Console.WriteLine(new string('-', 90));
 
-            // 1. Queue<TValue> (Contains)
+            // 1. Queue<TValue> (Contains) - Линейный поиск O(N)
             MeasureSearch(
                 "Queue<T>",
                 () => Col1_Value.Contains(_firstElement),
@@ -87,7 +116,7 @@ namespace Labs.Labs
                 () => Col1_Value.Contains(_noneElement)
             );
 
-            // 2. Queue<string> (Contains)
+            // 2. Queue<string> (Contains) - Линейный поиск O(N)
             MeasureSearch(
                 "Queue<str>",
                 () => Col1_String.Contains(_firstElement.ToString()),
@@ -96,7 +125,7 @@ namespace Labs.Labs
                 () => Col1_String.Contains(_noneElement.ToString())
             );
 
-            // 3. SortedDictionary<Key, Val> (ContainsKey)
+            // 3. SortedDictionary<Key, Val> (ContainsKey) - Бинарное дерево O(log N)
             MeasureSearch(
                 "SortDict<Key,Val> Key",
                 () => Col2_KeyVal.ContainsKey(_firstElement),
@@ -105,7 +134,7 @@ namespace Labs.Labs
                 () => Col2_KeyVal.ContainsKey(_noneElement)
             );
 
-            // 4. SortedDictionary<str, Val> (ContainsKey)
+            // 4. SortedDictionary<str, Val> (ContainsKey) - Бинарное дерево O(log N)
             MeasureSearch(
                 "SortDict<str,Val> Key",
                 () => Col2_StringVal.ContainsKey(_firstElement.ToString()),
@@ -114,7 +143,7 @@ namespace Labs.Labs
                 () => Col2_StringVal.ContainsKey(_noneElement.ToString())
             );
 
-            // 5. SortedDictionary<Key, Val> (ContainsValue)
+            // 5. SortedDictionary<Key, Val> (ContainsValue) - Линейный перебор значений O(N)
             // Ищем ЗНАЧЕНИЕ (Value) в словаре
             MeasureSearch(
                 "SortDict<Key,Val> Val",
@@ -125,7 +154,14 @@ namespace Labs.Labs
             );
         }
 
-        // Вспомогательный метод для замера и вывода
+        /// <summary>
+        /// Вспомогательный метод для замера и вывода времени поиска для четырех контрольных элементов.
+        /// </summary>
+        /// <param name="label">Метка для отображения в таблице результатов.</param>
+        /// <param name="checkFirst">Функция поиска первого элемента.</param>
+        /// <param name="checkMid">Функция поиска центрального элемента.</param>
+        /// <param name="checkLast">Функция поиска последнего элемента.</param>
+        /// <param name="checkNone">Функция поиска отсутствующего элемента.</param>
         private void MeasureSearch(
             string label,
             Func<bool> checkFirst,
@@ -149,6 +185,11 @@ namespace Labs.Labs
             );
         }
 
+        /// <summary>
+        /// Замеряет время выполнения переданного делегата <paramref name="action"/> в тактах процессора (<see cref="Stopwatch.ElapsedTicks"/>).
+        /// </summary>
+        /// <param name="action">Действие (поиск), время выполнения которого необходимо измерить.</param>
+        /// <returns>Время выполнения действия в тиках.</returns>
         private long GetTicks(Func<bool> action)
         {
             Stopwatch sw = Stopwatch.StartNew();

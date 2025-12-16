@@ -5,11 +5,19 @@ using static Labs.LabFunc;
 
 namespace Labs.Labs.Lab11
 {
+    /// <summary>
+    /// Представляет демонстрационный класс для лабораторной работы №11 по теме
+    /// "Коллекции".
+    /// </summary>
     public class Lab11 : ILab
     {
         // 1. Создать коллекцию, в которую добавить объекты созданной иерархии классов.
         private List<Organization> _collection = [];
 
+        /// <summary>
+        /// Основной метод для запуска демонстрации работы с коллекцией <see cref="List{T}"/>,
+        /// содержащей объекты иерархии <see cref="Organization"/>.
+        /// </summary>
         public void Run()
         {
             Console.WriteLine("=== Лабораторная работа №11: Коллекции List<T> ===");
@@ -62,7 +70,10 @@ namespace Labs.Labs.Lab11
             }
         }
 
-        // 2. Используя меню, реализовать добавление объектов коллекции.
+        /// <summary>
+        /// Добавляет новый элемент (<see cref="Organization"/> или его наследника) в коллекцию <see cref="_collection"/>.
+        /// Позволяет выбрать ручной или случайный ввод, а также тип организации.
+        /// </summary>
         private void AddElement()
         {
             Console.WriteLine("\n1. Создать вручную");
@@ -113,7 +124,9 @@ namespace Labs.Labs.Lab11
             }
         }
 
-        // 2. Используя меню, реализовать удаление объектов коллекции.
+        /// <summary>
+        /// Удаляет элемент из коллекции <see cref="_collection"/> по введенному пользователем индексу.
+        /// </summary>
         private void RemoveElement()
         {
             if (_collection.Count == 0)
@@ -142,7 +155,12 @@ namespace Labs.Labs.Lab11
             }
         }
 
-        // 4. Выполнить перебор элементов коллекции с помощью метода foreach.
+        /// <summary>
+        /// Выводит содержимое заданной коллекции <see cref="List{T}"/>, используя цикл <c>foreach</c>
+        /// и полиморфный вызов метода <see cref="Organization.Show"/>.
+        /// </summary>
+        /// <param name="list">Коллекция для печати.</param>
+        /// <param name="title">Заголовок для вывода.</param>
         private void PrintCollection(List<Organization> list, string title)
         {
             Console.WriteLine($"\n--- {title} ---");
@@ -160,7 +178,14 @@ namespace Labs.Labs.Lab11
             }
         }
 
-        // 3. Разработать и реализовать три запроса.
+        /// <summary>
+        /// Выполняет три демонстрационных запроса к текущей коллекции <see cref="_collection"/>:
+        /// <list type="bullet">
+        ///     <item>Подсчет количества объектов типа <see cref="Factory"/>.</item>
+        ///     <item>Поиск организации с самым длинным названием.</item>
+        ///     <item>Суммирование количества сотрудников во всех <see cref="ShipbuildingCompany"/>.</item>
+        /// </list>
+        /// </summary>
         private void ExecuteQueries()
         {
             if (_collection.Count == 0)
@@ -201,7 +226,11 @@ namespace Labs.Labs.Lab11
             Console.WriteLine($"3. Суммарно сотрудников на верфях: {totalShipbuilders}");
         }
 
-        // 5. Выполнить клонирование коллекции.
+        /// <summary>
+        /// Демонстрирует глубокое клонирование коллекции.
+        /// Создает новую коллекцию, в которую добавляются глубокие копии каждого элемента
+        /// из оригинальной коллекции с использованием <see cref="Organization.Clone"/>.
+        /// </summary>
         private void TestCloning()
         {
             if (_collection.Count == 0)
@@ -232,7 +261,11 @@ namespace Labs.Labs.Lab11
                 Console.WriteLine("(Коллекции независимы)");
         }
 
-        // 6. Выполнить сортировку коллекции и поиск заданного элемента.
+        /// <summary>
+        /// Демонстрирует сортировку коллекции с помощью <see cref="List{T}.Sort()"/>
+        /// (используя <see cref="IComparable{T}"/>, реализованный в <see cref="Organization"/>)
+        /// и последующий бинарный поиск <see cref="List{T}.BinarySearch(T)"/>.
+        /// </summary>
         private void TestSortAndSearch()
         {
             if (_collection.Count == 0)
@@ -267,11 +300,16 @@ namespace Labs.Labs.Lab11
             }
         }
 
+        /// <summary>
+        /// Запускает отдельный тест производительности для различных структур данных
+        /// (<see cref="Queue{T}"/> и <see cref="SortedDictionary{TKey, TValue}"/>)
+        /// для сравнения временной сложности операций.
+        /// </summary>
         private static void RunPerformanceTest()
         {
             Console.WriteLine("\n--- Тестирование производительности коллекций ---");
             // Создаем коллекции с 1000 элементов (как в задании)
-            TestCollections tester = new(1000);
+            TestCollections tester = new(1000); // Предполагается, что TestCollections определен
 
             // Запускаем измерения
             tester.MeasureTime();
