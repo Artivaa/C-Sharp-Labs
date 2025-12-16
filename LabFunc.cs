@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Labs.Labs.Lab10;
+using Labs.Labs.Lab9;
 
 namespace Labs
 {
@@ -42,6 +43,33 @@ namespace Labs
                 }
 
                 Console.WriteLine("Ошибка: нужно ввести целое число!");
+            }
+        }
+
+        /// <summary>
+        /// Генерирует случайный валидный треугольник.
+        /// Стороны генерируются в диапазоне [1; 100] и гарантированно удовлетворяют неравенству треугольника.
+        /// </summary>
+        /// <returns>Объект валидного треугольника.</returns>
+        public static Triangle GenerateRandomTriangle()
+        {
+            while (true)
+            {
+                // Генерируем три случайные стороны
+                double a = Rnd.Next(1, 101);
+                double b = Rnd.Next(1, 101);
+                double c = Rnd.Next(1, 101);
+
+                try
+                {
+                    // Пытаемся создать треугольник. Если стороны валидны — возвращаем его.
+                    return new Triangle(a, b, c);
+                }
+                catch (ArgumentException)
+                {
+                    // Если треугольник невалиден — генерируем новые стороны
+                    continue;
+                }
             }
         }
 

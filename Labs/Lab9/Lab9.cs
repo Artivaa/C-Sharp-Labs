@@ -1,4 +1,5 @@
 using System;
+using static Labs.LabFunc;
 
 namespace Labs.Labs.Lab9
 {
@@ -7,10 +8,9 @@ namespace Labs.Labs.Lab9
         public void Run()
         {
             // Создаём валидные треугольники
-            Triangle t1 = new(3, 4, 5);
-            Triangle t2 = new(5, 12, 13);
-            Triangle t3 = new(6, 8, 10);
-
+            Triangle t1 = GenerateRandomTriangle();
+            Triangle t2 = GenerateRandomTriangle();
+            Triangle t3 = GenerateRandomTriangle();
             Console.WriteLine("Исходные треугольники:");
             Console.Write("t1: ");
             t1.PrintSides();
@@ -20,19 +20,28 @@ namespace Labs.Labs.Lab9
             t3.PrintSides();
 
             // Демонстрация унарных операций ++ и --
-            Console.WriteLine("\nДемонстрация операции ++:");
-            Triangle t4 = t1++;
+            Console.WriteLine("\nДемонстрация операции ++ (постфиксная):");
+            Triangle t1Copy = new(t1); // Сохраняем копию для сравнения
+            Triangle t4 = t1++; // t1++ возвращает старое значение, затем увеличивает
             Console.WriteLine("После выполнения t1++:");
             Console.Write("t1 (увеличенный): ");
             t1.PrintSides();
             Console.Write("t4 (исходный t1): ");
             t4.PrintSides();
 
-            Console.WriteLine("\nДемонстрация операции --:");
-            Triangle t5 = t1--;
+            Console.WriteLine("\nДемонстрация операции -- (постфиксная):");
+            Triangle t5 = t1--; // t1-- возвращает увеличенное значение, затем уменьшает
             Console.WriteLine("После выполнения t1--:");
             Console.Write("t1 (вернулся к исходному): ");
             t1.PrintSides();
+            Console.Write("t5 (увеличенный t1): ");
+            t5.PrintSides();
+
+            // Проверка, что t1 вернулся к исходному состоянию
+            Console.WriteLine(
+                $"\nt1 равен исходному значению: "
+                    + $"{Math.Abs(t1.A - t1Copy.A) < 0.001 && Math.Abs(t1.B - t1Copy.B) < 0.001 && Math.Abs(t1.C - t1Copy.C) < 0.001}"
+            );
 
             // Приведение к double
             Console.WriteLine("\nЯвное приведение к double (площадь):");
@@ -48,12 +57,22 @@ namespace Labs.Labs.Lab9
             Triangle invalid = null;
             try
             {
-                invalid = new Triangle(1, 1, 3);
-            }
-            catch { }
-            if (invalid == null || !invalid)
-                Console.WriteLine("Невалидный треугольник корректно распознан как false");
+                // Генерируем гарантированно невалидный треугольник
+                double invalidA = Rnd.Next(1, 50);
+                double invalidB = Rnd.Next(1, 50);
+                double invalidC = invalidA + invalidB + 10; // Нарушаем неравенство треугольника
 
+                invalid = new Triangle(invalidA, invalidB, invalidC);
+                Console.WriteLine("Невалидный треугольник создан (это не должно произойти)");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Невалидный треугольник корректно отклонен: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
             // Сравнение по площади
             Console.WriteLine("\nСравнение треугольников по площади:");
             Console.WriteLine($"t1 <= t3: {t1 <= t3}");
